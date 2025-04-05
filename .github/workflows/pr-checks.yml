@@ -13,6 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up JDK 11 (or the version your project uses)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'  # Adjust this to match the Java version used in your Kotlin project
+
+      - name: Install dependencies
+        run: |
+          ./gradlew build --no-daemon  # Run Gradle build (assuming you're using Gradle)
+
       - name: Run tests
         run: |
           ./gradlew test  # Run unit tests (using Gradle)

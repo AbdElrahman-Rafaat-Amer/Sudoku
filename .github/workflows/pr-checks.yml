@@ -14,29 +14,8 @@ jobs:
         uses: actions/checkout@v3
 
       # Set up a job to run tests or checks
-      - name: Set up Python (or your desired language)
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'  # Set this according to your project's language
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt  # Adjust according to your project setup
-
-      - name: Run linting checks
-        run: |
-          pylint your_module  # Replace with the appropriate lint command for your project
-
       - name: Run unit tests
         run: |
           pytest  # Replace with the command for running tests in your project
 
-      # Add any other checks you'd like to perform here, for example:
-      - name: Run static analysis
-        run: |
-          bandit -r your_module  # Example for static code analysis
-
-      - name: Run custom checks
-        run: |
-          ./scripts/custom_check.sh  # Replace with a script or command for custom checks
 

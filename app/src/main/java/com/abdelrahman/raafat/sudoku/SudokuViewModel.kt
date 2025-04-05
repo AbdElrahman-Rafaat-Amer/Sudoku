@@ -89,7 +89,7 @@ class SudokuViewModel() : ViewModel() {
 
         return true
     }
-
+ddd
     private fun extractSubGrids(grid: List<List<String>>): List<List<String>> {
         val gridSize = grid.size
         val (subGridRow, subGridColumn) = getSubGridRowColumn(gridSize)

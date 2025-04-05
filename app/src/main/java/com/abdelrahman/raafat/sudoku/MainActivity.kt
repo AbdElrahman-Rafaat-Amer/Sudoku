@@ -27,8 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,15 +36,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.sudoku.ui.theme.SudokuTheme
+import androidx.activity.viewModels
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.collectAsState
+
 
 class MainActivity : ComponentActivity() {
+    private val sudokuViewModel: SudokuViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SudokuTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SudokuBoard(modifier = Modifier.padding(innerPadding))
+                    SudokuBoard(
+                        viewModel = sudokuViewModel,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
@@ -55,29 +62,18 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SudokuBoard(modifier: Modifier = Modifier) {
-    val gameType = listOf(
-        "3x3" to 3,
-        "6x6" to 6,
-        "8x8" to 8,
-        "9x9" to 9,
-        "10x10" to 10,
-        "12x12" to 12,
-        "14x14" to 14
-    )
-    var selectedGameTypeIndex by remember { mutableIntStateOf(3) }
-    var boardSize by remember { mutableIntStateOf(gameType[selectedGameTypeIndex].second) }
+fun SudokuBoard(viewModel: SudokuViewModel, modifier: Modifier = Modifier) {
 
-    val boardState = remember(boardSize) {
-        List(boardSize) { mutableStateListOf(*Array(boardSize) { "-" }) }
-    }
+    val boardSize by viewModel.boardSize.collectAsState()
 
+    val boardState = viewModel.boardState.collectAsState()
+    val selectedIndex by viewModel.selectedIndex.collectAsState()
+    val isGamedEnded by viewModel.isGamedEnded.collectAsState()
 
-    var selectedIndex by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var isValidSudoku by remember { mutableStateOf(true) }
 
     Column(
-        modifier = modifier,
+        modifier = modifier.verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -91,15 +87,13 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.Center,
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            for (i in gameType.indices) {
+            for (i in viewModel.gameType.indices) {
                 Button(
                     onClick = {
-                        selectedGameTypeIndex = i
-                        boardSize = gameType[selectedGameTypeIndex].second
-                        selectedIndex = null
+                        viewModel.drawNewGame(i)
                     },
                     content = {
-                        Text(text = gameType[i].first)
+                        Text(text = viewModel.gameType[i].first)
                     },
                     modifier = Modifier
                         .defaultMinSize(minWidth = 75.dp, minHeight = 50.dp)
@@ -119,7 +113,16 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
             }
         }
 
-        val (rowSubGrid, columnSubGrid) = getSubGridRowColumn(boardSize)
+        AnimatedVisibility(isGamedEnded) {
+            Column {
+                Text(
+                    text = "You win, please start a new game to start again",
+                )
+                Spacer(Modifier.height(50.dp))
+            }
+        }
+
+        val (rowSubGrid, columnSubGrid) = viewModel.getSubGridRowColumn(boardSize)
 
         for (i in 0..<boardSize) {
             Row(
@@ -135,11 +138,12 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
                             modifier = Modifier
                                 .clickable(
                                     onClick = {
-                                        selectedIndex = if (selectedIndex == Pair(i, j)) {
+                                        val selectedIndex = if (selectedIndex == Pair(i, j)) {
                                             null
                                         } else {
                                             Pair(i, j)
                                         }
+                                        viewModel.updateSelectedIndex(selectedIndex)
                                     }
                                 )
                                 .weight(1f)
@@ -153,12 +157,12 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
                                 ),
                             contentAlignment = Alignment.Center,
                         ) {
-                            Text(text = boardState[i][j], color = Color.Black)
+                            Text(text = boardState.value[i][j], color = Color.Black)
                         }
                         if (j < boardSize - 1) {
-                            val (color, thickness) = if ((j + 1) % columnSubGrid == 0){
+                            val (color, thickness) = if ((j + 1) % columnSubGrid == 0) {
                                 Color.Red to 3.dp
-                            } else{
+                            } else {
                                 Color.Black to 1.dp
                             }
                             VerticalDivider(
@@ -171,9 +175,9 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
                 }
             }
             if (i < boardSize - 1) {
-                val (color, thickness) = if ((i + 1) % rowSubGrid == 0){
+                val (color, thickness) = if ((i + 1) % rowSubGrid == 0) {
                     Color.Red to 3.dp
-                } else{
+                } else {
                     Color.Black to 1.dp
                 }
                 HorizontalDivider(
@@ -189,6 +193,7 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
 
 
         Spacer(Modifier.height(100.dp))
+        //Draw numbers
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -198,8 +203,8 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
                 Button(
                     onClick = {
                         selectedIndex?.let {
-                            boardState[it.first][it.second] = i.toString()
-                            isValidSudoku = isValidSudoku(boardState)
+                            viewModel.updateBoard(it, i.toString())
+                            isValidSudoku = viewModel.isValidSudoku(boardState.value)
                         }
                     },
                     content = {
@@ -213,8 +218,8 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
             Button(
                 onClick = {
                     selectedIndex?.let {
-                        boardState[it.first][it.second] = "-"
-                        isValidSudoku = isValidSudoku(boardState)
+                        viewModel.updateBoard(it, "-")
+                        isValidSudoku = viewModel.isValidSudoku(boardState.value)
                     }
                 },
                 content = {
@@ -233,6 +238,6 @@ fun SudokuBoard(modifier: Modifier = Modifier) {
 @Composable
 fun SudokuBoardPreview() {
     SudokuTheme {
-        SudokuBoard()
+        SudokuBoard(viewModel = SudokuViewModel())
     }
 }

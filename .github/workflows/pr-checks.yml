@@ -15,8 +15,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          ./gradlew build --no-daemon  # Run Gradle build (assuming you're using Gradle)
+          ./gradlew build --no-daemon
 
       - name: Run tests
-        run: |
-          ./gradlew test  # Run unit tests (using Gradle)
+        run: ./gradlew test

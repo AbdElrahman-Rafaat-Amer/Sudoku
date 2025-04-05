@@ -27,7 +27,7 @@ fun main() {
     validateSudoku(
         name = "Valid 9x9 Sudoku: Fully Filled and Correct",
         input = listOf(
-            listOf("5", "3", "4", "6", "7", "8", "9", "1", "2"),
+            listOf("3", "3", "4", "6", "7", "8", "9", "1", "2"),
             listOf("6", "7", "2", "1", "9", "5", "3", "4", "8"),
             listOf("1", "9", "8", "3", "4", "2", "5", "6", "7"),
             listOf("8", "5", "9", "7", "6", "1", "4", "2", "3"),

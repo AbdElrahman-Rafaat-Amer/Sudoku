@@ -35,7 +35,7 @@ class SudokuViewModel() : ViewModel() {
 
     private val _boardState: MutableStateFlow<MutableList<SnapshotStateList<String>>> =
         MutableStateFlow(MutableList(boardSize.value) {
-            mutableStateListOf(*Array(boardSize.value) { "-" })
+            mutableStateListOf(*Array(boardSize.value) { emptyCell })
         })
     val boardState: StateFlow<List<SnapshotStateList<String>>> = _boardState
 

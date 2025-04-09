@@ -36,9 +36,9 @@ jobs:
  	 run: kotlin -classpath sudoku-tests.jar com.abdelrahman.raafat.sudoku.RunSudokuTestsKt
 
 
-  #    - name: Compile custom tests
-  #      run: |
-  #        kotlinc customtestcases/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar
+      - name: Compile custom tests
+        run: |
+          kotlinc customtestcases/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar
 
      - name: Run custom test cases
         run: |

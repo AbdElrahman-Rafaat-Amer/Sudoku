@@ -1,5 +1,6 @@
-package com.abdelrahman.raafat.sudoku
+package customtestcases
 
+import com.abdelrahman.raafat.sudoku.SudokuViewModel
 import kotlin.system.exitProcess
 
 fun main() {

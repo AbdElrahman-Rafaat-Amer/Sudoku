@@ -1,0 +1,35 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main  # Run this action for pull requests targeting the 'main' branch
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      #- name: Install dependencies
+     #   run: |
+     #     ./gradlew build --no-daemon
+
+      #- name: Run tests
+     #   run: ./gradlew test
+
+      - name: Install Kotlin CLI
+        run: |
+          sudo snap install --classic kotlin
+
+
+
+      - name: Compile custom tests
+        run: |
+          kotlinc customtestcases/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar
+
+     - name: Run custom test cases
+        run: |
+          kotlin -classpath sudoku-tests.jar com.abdelrahman.raafat.sudoku.RunSudokuTestsKt

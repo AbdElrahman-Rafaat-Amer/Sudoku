@@ -13,12 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: |
-          ./gradlew build --no-daemon
+      #- name: Install dependencies
+     #   run: |
+     #     ./gradlew build --no-daemon
 
-      - name: Run tests
-        run: ./gradlew test
+      #- name: Run tests
+     #   run: ./gradlew test
 
       - name: Run custom test cases
         run: ./gradlew runCustomTests

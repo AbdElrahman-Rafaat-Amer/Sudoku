@@ -25,21 +25,21 @@ jobs:
           sudo snap install --classic kotlin
 
 	
-- name: Compile Sudoku test + SudokuViewModel
-  run: |
-    kotlinc \
-      customtestcases/RunSudokuTests.kt \
-      app/src/main/kotlin/com/abdelrahman/raafat/sudoku/SudokuViewModel.kt \
-      -include-runtime -d sudoku-tests.jar
+	- name: Compile Sudoku test + SudokuViewModel
+ 	 run: |
+ 	   kotlinc \
+   	   customtestcases/RunSudokuTests.kt \
+    	  app/src/main/kotlin/com/abdelrahman/raafat/sudoku/SudokuViewModel.kt \
+   	   -include-runtime -d sudoku-tests.jar
 
-- name: Run Sudoku tests
-  run: kotlin -classpath sudoku-tests.jar com.abdelrahman.raafat.sudoku.RunSudokuTestsKt
+	- name: Run Sudoku tests
+ 	 run: kotlin -classpath sudoku-tests.jar com.abdelrahman.raafat.sudoku.RunSudokuTestsKt
 
 
   #    - name: Compile custom tests
   #      run: |
   #        kotlinc customtestcases/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar
 
-  #    - name: Run custom test cases
-  #      run: |
-  #        kotlin -classpath sudoku-tests.jar com.abdelrahman.raafat.sudoku.RunSudokuTestsKt
+     - name: Run custom test cases
+        run: |
+          kotlin -classpath sudoku-tests.jar com.abdelrahman.raafat.sudoku.RunSudokuTestsKt

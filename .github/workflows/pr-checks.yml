@@ -25,7 +25,6 @@ jobs:
           sudo snap install --classic kotlin
 
 
-
       - name: Compile custom tests
         run: |
           kotlinc customtestcases/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar

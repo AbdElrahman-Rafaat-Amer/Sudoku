@@ -2,7 +2,7 @@ package com.abdelrahman.raafat.sudoku
 
 fun main() {
     val results = listOf(
-        validateSudoku("Valid 9x9 Sudoku: Fully Filled and Correct", listOf(
+        validateSudoku("Valid 3x3 Sudoku: Fully Filled and Correct", listOf(
             listOf("1", "2", "3"),
             listOf("2", "3", "1"),
             listOf("3", "1", "2"),

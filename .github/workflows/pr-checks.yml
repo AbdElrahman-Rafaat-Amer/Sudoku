@@ -26,7 +26,7 @@ jobs:
 
       - name: Compile custom tests
         run: |
-          kotlinc custom-tests/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar
+          kotlinc app/src/main/kotlin/com/abdelrahman/raafat/customtests/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar
 
       - name: Run custom test cases
         run: |

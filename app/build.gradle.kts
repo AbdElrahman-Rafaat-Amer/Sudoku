@@ -57,10 +57,3 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
-
-tasks.register<JavaExec>("runCustomTests") {
-    group = "verification"
-    mainClass.set("com.abdelrahman.raafat.sudoku.SudokuValidatorTestKt") // Replace with actual file name if different
-    classpath = sourceSets["main"].runtimeClasspath
-}
-

@@ -20,8 +20,14 @@ jobs:
       #- name: Run tests
      #   run: ./gradlew test
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
+      - name: Install Kotlin CLI
+        run: |
+          sudo snap install --classic kotlin
+
+      - name: Compile custom tests
+        run: |
+          kotlinc custom-tests/RunSudokuTests.kt -include-runtime -d sudoku-tests.jar
 
       - name: Run custom test cases
-        run: ./gradlew runCustomTests
+        run: |
+          kotlin -classpath sudoku-tests.jar com.abdelrahman.raafat.sudoku.RunSudokuTestsKt

@@ -28,7 +28,7 @@ fun Board(
     viewModel: SudokuViewModel,
     boardSize: Int,
     selectedIndex: Pair<Int, Int>?,
-    boardState: State<List<SnapshotStateList<String>>>
+    boardState: State<List<SnapshotStateList<String>>>,
 ) {
     val (rowSubGrid, columnSubGrid) = viewModel.getSubGridRowColumn(boardSize)
 
@@ -36,69 +36,73 @@ fun Board(
         border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.tertiary),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier.padding(horizontal = 5.dp),
-        elevation = CardDefaults.cardElevation(5.dp)
+        elevation = CardDefaults.cardElevation(5.dp),
     ) {
         for (i in 0..<boardSize) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 for (j in 0..<boardSize) {
                     Row(modifier = Modifier.weight(1f)) {
-                        val (backGroundColor, textColor) = if (selectedIndex == Pair(i, j)) {
-                            MaterialTheme.colorScheme.primary to MaterialTheme.colorScheme.secondary
-                        } else {
-                            MaterialTheme.colorScheme.secondary to MaterialTheme.colorScheme.onPrimary
-                        }
+                        val (backGroundColor, textColor) =
+                            if (selectedIndex == Pair(i, j)) {
+                                MaterialTheme.colorScheme.primary to MaterialTheme.colorScheme.secondary
+                            } else {
+                                MaterialTheme.colorScheme.secondary to MaterialTheme.colorScheme.onPrimary
+                            }
                         Box(
-                            modifier = Modifier
-                                .clickable(
-                                    onClick = {
-                                        val selectedIndex = if (selectedIndex == Pair(i, j)) {
-                                            null
-                                        } else {
-                                            Pair(i, j)
-                                        }
-                                        viewModel.updateSelectedIndex(selectedIndex)
-                                    }
-                                )
-                                .weight(1f)
-                                .size(50.dp)
-                                .background(color = backGroundColor),
+                            modifier =
+                                Modifier
+                                    .clickable(
+                                        onClick = {
+                                            val selectedIndex =
+                                                if (selectedIndex == Pair(i, j)) {
+                                                    null
+                                                } else {
+                                                    Pair(i, j)
+                                                }
+                                            viewModel.updateSelectedIndex(selectedIndex)
+                                        },
+                                    ).weight(1f)
+                                    .size(50.dp)
+                                    .background(color = backGroundColor),
                             contentAlignment = Alignment.Center,
                         ) {
                             Text(text = boardState.value[i][j], color = textColor)
                         }
                         if (j < boardSize - 1) {
-                            val (color, thickness) = if ((j + 1) % columnSubGrid == 0) {
-                                MaterialTheme.colorScheme.tertiary to 4.dp
-                            } else {
-                                MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f) to 1.dp
-                            }
+                            val (color, thickness) =
+                                if ((j + 1) % columnSubGrid == 0) {
+                                    MaterialTheme.colorScheme.tertiary to 4.dp
+                                } else {
+                                    MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f) to 1.dp
+                                }
 
                             VerticalDivider(
                                 modifier = Modifier.height(50.dp),
                                 color = color,
-                                thickness = thickness
+                                thickness = thickness,
                             )
                         }
                     }
                 }
             }
             if (i < boardSize - 1) {
-                val (color, thickness) = if ((i + 1) % rowSubGrid == 0) {
-                    MaterialTheme.colorScheme.tertiary to 4.dp
-                } else {
-                    MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f) to 2.dp
-                }
+                val (color, thickness) =
+                    if ((i + 1) % rowSubGrid == 0) {
+                        MaterialTheme.colorScheme.tertiary to 4.dp
+                    } else {
+                        MaterialTheme.colorScheme.tertiary.copy(alpha = 0.8f) to 2.dp
+                    }
                 HorizontalDivider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 10.dp),
                     color = color,
-                    thickness = thickness
+                    thickness = thickness,
                 )
             }
-
         }
     }
 }

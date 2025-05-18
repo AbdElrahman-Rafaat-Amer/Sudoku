@@ -9,15 +9,17 @@ import androidx.compose.ui.unit.sp
 
 fun buildTypography(color: Color): Typography {
     // Set of Material typography styles to start with
-    val typography = Typography(
-        bodyLarge = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
-            lineHeight = 24.sp,
-            letterSpacing = 0.5.sp,
-            color = color
+    val typography =
+        Typography(
+            bodyLarge =
+                TextStyle(
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    letterSpacing = 0.5.sp,
+                    color = color,
+                ),
         )
-    )
     return typography
 }

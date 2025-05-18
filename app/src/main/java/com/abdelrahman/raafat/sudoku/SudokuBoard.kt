@@ -27,8 +27,10 @@ import com.abdelrahman.raafat.sudoku.ui.theme.SudokuTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SudokuBoard(viewModel: SudokuViewModel, modifier: Modifier = Modifier) {
-
+fun SudokuBoard(
+    viewModel: SudokuViewModel,
+    modifier: Modifier = Modifier,
+) {
     val boardSize by viewModel.boardSize.collectAsState()
 
     val boardState = viewModel.boardState.collectAsState()
@@ -38,19 +40,22 @@ fun SudokuBoard(viewModel: SudokuViewModel, modifier: Modifier = Modifier) {
     var isValidSudoku by remember { mutableStateOf(true) }
 
     Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .background(
-                brush = Brush.verticalGradient(
-                    colorStops = arrayOf(
-                        0.0f to Blue,
-                        0.4f to Blue,
-                        0.4f to MaterialTheme.colorScheme.background,
-                        1.0f to MaterialTheme.colorScheme.background
-                    )
-                )
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .verticalScroll(rememberScrollState())
+                .background(
+                    brush =
+                        Brush.verticalGradient(
+                            colorStops =
+                                arrayOf(
+                                    0.0f to Blue,
+                                    0.4f to Blue,
+                                    0.4f to MaterialTheme.colorScheme.background,
+                                    1.0f to MaterialTheme.colorScheme.background,
+                                ),
+                        ),
+                ),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(R.string.sudoku_board),
@@ -58,9 +63,8 @@ fun SudokuBoard(viewModel: SudokuViewModel, modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(30.dp))
 
-        //Draw levels
+        // Draw levels
         Levels(viewModel = viewModel)
-
 
         Spacer(Modifier.height(50.dp))
 
@@ -86,13 +90,12 @@ fun SudokuBoard(viewModel: SudokuViewModel, modifier: Modifier = Modifier) {
             viewModel = viewModel,
             boardSize = boardSize,
             selectedIndex = selectedIndex,
-            boardState = boardState
+            boardState = boardState,
         )
-
 
         Spacer(Modifier.height(100.dp))
 
-        //Draw numbers
+        // Draw numbers
         Numbers(
             boardSize = boardSize,
             onButtonClicked = { cellValue ->
@@ -100,9 +103,8 @@ fun SudokuBoard(viewModel: SudokuViewModel, modifier: Modifier = Modifier) {
                     viewModel.updateBoard(it, cellValue)
                     isValidSudoku = viewModel.isValidSudoku(boardState.value)
                 }
-            }
+            },
         )
-
     }
 }
 

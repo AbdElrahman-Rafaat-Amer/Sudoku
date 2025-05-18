@@ -13,17 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Numbers(
     boardSize: Int,
-    onButtonClicked: (String) -> Unit
+    onButtonClicked: (String) -> Unit,
 ) {
     FlowRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         for (i in 1..boardSize) {
             Button(
@@ -33,9 +32,10 @@ fun Numbers(
                 content = {
                     Text(text = i.toString(), color = MaterialTheme.colorScheme.tertiary)
                 },
-                modifier = Modifier
-                    .defaultMinSize(minWidth = 75.dp, minHeight = 50.dp)
-                    .padding(end = 5.dp)
+                modifier =
+                    Modifier
+                        .defaultMinSize(minWidth = 75.dp, minHeight = 50.dp)
+                        .padding(end = 5.dp),
             )
         }
         Button(
@@ -45,9 +45,10 @@ fun Numbers(
             content = {
                 Text(text = "Clear")
             },
-            modifier = Modifier
-                .defaultMinSize(minWidth = 75.dp, minHeight = 50.dp)
-                .padding(end = 5.dp)
+            modifier =
+                Modifier
+                    .defaultMinSize(minWidth = 75.dp, minHeight = 50.dp)
+                    .padding(end = 5.dp),
         )
     }
 }

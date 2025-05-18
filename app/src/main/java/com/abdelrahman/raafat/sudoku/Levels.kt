@@ -21,7 +21,7 @@ fun Levels(viewModel: SudokuViewModel) {
     FlowRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         for (i in viewModel.gameType.indices) {
             Button(
@@ -31,10 +31,11 @@ fun Levels(viewModel: SudokuViewModel) {
                 content = {
                     Text(text = viewModel.gameType[i].first, color = Blue)
                 },
-                modifier = Modifier
-                    .defaultMinSize(minWidth = 75.dp, minHeight = 50.dp)
-                    .padding(end = 5.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background)
+                modifier =
+                    Modifier
+                        .defaultMinSize(minWidth = 75.dp, minHeight = 50.dp)
+                        .padding(end = 5.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background),
             )
         }
     }

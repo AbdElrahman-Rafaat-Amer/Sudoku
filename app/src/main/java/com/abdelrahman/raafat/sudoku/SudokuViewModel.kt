@@ -1,6 +1,5 @@
 package com.abdelrahman.raafat.sudoku
 
-
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
@@ -8,23 +7,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.math.sqrt
 
-class SudokuViewModel() : ViewModel() {
-
+class SudokuViewModel : ViewModel() {
     private val emptyCell = "-"
 
-    val gameType = listOf(
-        "3x3" to 3,
-        "6x6" to 6,
-        "8x8" to 8,
-        "9x9" to 9,
-        "10x10" to 10,
-        "12x12" to 12,
-        "14x14" to 14
-    )
+    val gameType =
+        listOf(
+            "3x3" to 3,
+            "6x6" to 6,
+            "8x8" to 8,
+            "9x9" to 9,
+            "10x10" to 10,
+            "12x12" to 12,
+            "14x14" to 14,
+        )
 
     private val _boardSize = MutableStateFlow(gameType[3].second)
     val boardSize: StateFlow<Int> = _boardSize
-
 
     private val _isGamedEnded: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isGamedEnded: StateFlow<Boolean> = _isGamedEnded
@@ -34,18 +32,19 @@ class SudokuViewModel() : ViewModel() {
     val selectedIndex: StateFlow<Pair<Int, Int>?> = _selectedIndex
 
     private val _boardState: MutableStateFlow<MutableList<SnapshotStateList<String>>> =
-        MutableStateFlow(MutableList(boardSize.value) {
-            mutableStateListOf(*Array(boardSize.value) { emptyCell })
-        })
+        MutableStateFlow(
+            MutableList(boardSize.value) {
+                mutableStateListOf(*Array(boardSize.value) { emptyCell })
+            },
+        )
     val boardState: StateFlow<List<SnapshotStateList<String>>> = _boardState
-
 
     fun isValidSudoku(sudokuBoard: List<List<String>>): Boolean {
         if (sudokuBoard.isEmpty()) return false
 
-        if (!sudokuBoard.size.isPerfectSquare()
-            && sudokuBoard.size % 2 != 0
-            && sudokuBoard.size != 3
+        if (!sudokuBoard.size.isPerfectSquare() &&
+            sudokuBoard.size % 2 != 0 &&
+            sudokuBoard.size != 3
         ) {
             return false
         }
@@ -67,10 +66,10 @@ class SudokuViewModel() : ViewModel() {
             }
         }
 
-
-        val columns = Array(sudokuBoard.size) { i ->
-            Array(sudokuBoard.size) { j -> sudokuBoard[j][i] }
-        }
+        val columns =
+            Array(sudokuBoard.size) { i ->
+                Array(sudokuBoard.size) { j -> sudokuBoard[j][i] }
+            }
 
         columns.forEach { column ->
             if (column.toList().hasRepeatedNumbers()) {
@@ -131,17 +130,19 @@ class SudokuViewModel() : ViewModel() {
     }
 
     private fun isBoardFilled(lists: List<List<String>>): Boolean {
-        val hasEmptyCells = lists.any { row ->
-            row.any { it == emptyCell }
-        }
+        val hasEmptyCells =
+            lists.any { row ->
+                row.any { it == emptyCell }
+            }
         return !hasEmptyCells
     }
 
     fun drawNewGame(i: Int) {
         _boardSize.value = gameType[i].second
-        _boardState.value = MutableList(boardSize.value) {
-            mutableStateListOf(*Array(boardSize.value) { "-" })
-        }
+        _boardState.value =
+            MutableList(boardSize.value) {
+                mutableStateListOf(*Array(boardSize.value) { "-" })
+            }
         _selectedIndex.value = null
     }
 
@@ -149,10 +150,12 @@ class SudokuViewModel() : ViewModel() {
         _selectedIndex.value = pair
     }
 
-    fun updateBoard(pair: Pair<Int, Int>, value: String) {
+    fun updateBoard(
+        pair: Pair<Int, Int>,
+        value: String,
+    ) {
         val row = pair.first
         val col = pair.second
         _boardState.value[row][col] = value
     }
-
 }

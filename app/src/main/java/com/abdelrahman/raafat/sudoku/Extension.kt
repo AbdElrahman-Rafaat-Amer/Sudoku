@@ -3,7 +3,7 @@ package com.abdelrahman.raafat.sudoku
 import kotlin.math.sqrt
 
 fun Int.isPerfectSquare(): Boolean {
-    if (this < 0){
+    if (this < 0) {
         println("This number is negative")
         return false
     }

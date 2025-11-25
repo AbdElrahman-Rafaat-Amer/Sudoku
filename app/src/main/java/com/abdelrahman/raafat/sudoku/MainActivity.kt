@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.abdelrahman.raafat.sudoku.gpt.SudokuApp
 import com.abdelrahman.raafat.sudoku.ui.theme.SudokuTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,10 +21,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             SudokuTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SudokuBoard(
-                        viewModel = sudokuViewModel,
-                        modifier = Modifier.padding(innerPadding),
-                    )
+//                    SudokuBoard(
+//                        viewModel = sudokuViewModel,
+//                        modifier = Modifier.padding(innerPadding),
+//                    )
+                    SudokuApp()
                 }
             }
         }
